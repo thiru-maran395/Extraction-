@@ -1,0 +1,20 @@
+import yfinance as yf
+import pandas as pd
+
+# Fetch Amazon (AMZN) historical data
+amazon = yf.Ticker("AMZN")
+amazon_data = amazon.history(period="max")
+
+# Reset index for 'Date' column
+amazon_data.reset_index(inplace=True)
+
+# Print the first five rows
+print("First 5 rows of Amazon Data:")
+print(amazon_data.head())
+
+# Question 2: Column names
+print("\nColumn names:")
+print(list(amazon_data.columns))
+
+# Question 3: Open of the last row
+print("\nOpen of the last row:", amazon_data.iloc[-1]["Open"])
