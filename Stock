@@ -1,0 +1,43 @@
+# -----------------------------------------------
+# Extracting Stock Data Using a Python Library
+# -----------------------------------------------
+
+# Step 1: Download the JSON file
+!wget https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-PY0220EN-SkillsNetwork/data/amd.json
+
+# Step 2: Install and import required libraries
+!pip install yfinance --quiet
+
+import json
+import yfinance as yf   # for stock history
+
+# Step 3: Load JSON data
+with open('amd.json') as json_file:
+    amd_info = json.load(json_file)
+
+# Print the data type to confirm
+print("Type of amd_info:", type(amd_info))
+
+# ---------------------------------------------------
+# Question 1: Find the country the stock belongs to
+# ---------------------------------------------------
+country = amd_info['country']
+print("Country:", country)
+
+# ---------------------------------------------------
+# Question 2: Find the sector the stock belongs to
+# ---------------------------------------------------
+sector = amd_info['sector']
+print("Sector:", sector)
+
+# ---------------------------------------------------
+# Question 3: Obtain AMD stock data using yfinance
+# ---------------------------------------------------
+amd = yf.Ticker("AMD")                     # create AMD ticker object
+amd_history = amd.history(period="max")    # get full history
+print("AMD Stock Data (first 5 rows):")
+print(amd_history.head())
+
+# Find the volume traded on the first day
+first_day_volume = amd_history.iloc[0]['Volume']
+print("\nVolume traded on the first day:", first_day_volume)
