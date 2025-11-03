@@ -1,0 +1,74 @@
+# ------------------------------
+# Extracting and Visualizing Stock Data
+# ------------------------------
+
+# Import required libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# ------------------------------
+# Helper Function: make_graph
+# ------------------------------
+def make_graph(stock_data, revenue_data, company_name):
+    """
+    Plot stock price and revenue data for a given company.
+    Only includes data up to June 2021.
+    """
+    # Convert 'Date' columns to datetime
+    stock_data['Date'] = pd.to_datetime(stock_data['Date'])
+    revenue_data['Date'] = pd.to_datetime(revenue_data['Date'])
+    
+    # Filter data to only include dates up to June 2021
+    stock_data = stock_data[stock_data['Date'] <= '2021-06-30']
+    revenue_data = revenue_data[revenue_data['Date'] <= '2021-06-30']
+    
+    # Create two subplots
+    fig, ax1 = plt.subplots(2, 1, figsize=(12, 8))
+    
+    # Plot stock prices
+    ax1[0].plot(stock_data['Date'], stock_data['Close'], label="Stock Price", color='blue')
+    ax1[0].set_title(f"{company_name} Stock Price (Up to June 2021)")
+    ax1[0].set_ylabel("Stock Price (USD)")
+    ax1[0].grid(True)
+    
+    # Plot revenue
+    ax1[1].plot(revenue_data['Date'], revenue_data['Revenue'], label="Revenue", color='green')
+    ax1[1].set_title(f"{company_name} Revenue (Up to June 2021)")
+    ax1[1].set_ylabel("Revenue (USD Millions)")
+    ax1[1].grid(True)
+    
+    plt.tight_layout()
+    plt.show()
+
+# ------------------------------
+# Example Data Loading (Replace with actual URLs or CSVs)
+# ------------------------------
+
+# For demonstration, we’ll simulate example data
+tesla_data = pd.DataFrame({
+    "Date": pd.date_range(start="2020-01-01", periods=20, freq='M'),
+    "Close": [100 + i*20 for i in range(20)]
+})
+tesla_revenue = pd.DataFrame({
+    "Date": pd.date_range(start="2020-01-01", periods=20, freq='M'),
+    "Revenue": [5000 + i*300 for i in range(20)]
+})
+
+gme_data = pd.DataFrame({
+    "Date": pd.date_range(start="2020-01-01", periods=20, freq='M'),
+    "Close": [10 + i*5 for i in range(20)]
+})
+gme_revenue = pd.DataFrame({
+    "Date": pd.date_range(start="2020-01-01", periods=20, freq='M'),
+    "Revenue": [1000 + i*50 for i in range(20)]
+})
+
+# ------------------------------
+# Question 5: Plot Tesla Stock Graph
+# ------------------------------
+make_graph(tesla_data, tesla_revenue, 'Tesla')
+
+# ------------------------------
+# Question 6: Plot GameStop Stock Graph
+# ------------------------------
+make_graph(gme_data, gme_revenue, 'GameStop')
